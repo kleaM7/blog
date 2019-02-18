@@ -1,0 +1,102 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+
+    var uid = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+    var usern = await UserManager.FindByIdAsync(uid);
+}
+@using Microsoft.AspNetCore.Identity
+@using Microsoft.AspNetCore.Identity.EntityFrameworkCore
+@using System.Security.Claims
+
+
+@model IEnumerable<Blog_Klea.Models.BlogPost>
+@inject SignInManager<IdentityUser> SignInManager
+@inject UserManager<IdentityUser> UserManager
+
+@if (SignInManager.IsSignedIn(User))
+
+{
+    
+    <div class="text-center">
+        <h1 class="display-4">Welcome @usern</h1>
+    </div>
+    <div class="text-center">
+        @foreach (var item in Model)
+
+        {
+            <tr>
+                <td>
+                    <h3 style="color:indigo">@Html.DisplayFor(modelItem => item.Title)</h3>
+                    <img src="~/content/blog/@Html.DisplayFor(modelItem=> item.Image)" style="width:300px;" />
+                    <h6>
+                        @if (item.Content.ToString().Length > 200)
+                        {
+                            item.Content = item.Content.Substring(0, 199) + "...";
+                        }
+                        @Html.DisplayFor(modelItem => item.Content)
+                    </h6>
+                    <p style="font-size:12px; color:dimgray">
+                        @Html.DisplayFor(modelItem => item.PubDate)
+                    </p>
+
+                    <p>
+
+                        <a href="https://localhost:44302/BlogPost/Details/ @Html.DisplayFor(modelItem => item.ID)"> View more </a>
+                    </p>
+
+                </td>
+
+                @*<td>
+                        <a asp-action="Edit" asp-route-id="@item.ID">Edit</a> |
+                        <a asp-action="Details" asp-route-id="@item.ID">Details</a> |
+                        <a asp-action="Delete" asp-route-id="@item.ID">Delete</a>
+                    </td>*@
+            </tr>
+        }
+
+    </div>
+
+}
+else
+{
+
+    <div class="text-center">
+        <h1 class="display-4">Welcome</h1>
+    </div>
+    <div class="text-center">
+        @foreach (var item in Model)
+
+        {
+            <tr>
+                <td>
+                    <h3 style="color:indigo">@Html.DisplayFor(modelItem => item.Title)</h3>
+                    <h6>
+                        @if (item.Content.ToString().Length > 200)
+                        {
+                            item.Content = item.Content.Substring(0, 199) + "...";
+                        }
+                        @Html.DisplayFor(modelItem => item.Content)
+                    </h6>
+                    <img src="~/content/blog/@Html.DisplayFor(modelItem=> item.Image)" style="width:300px;" />
+                    <p style="font-size:12px; color:dimgray">
+                        @Html.DisplayFor(modelItem => item.PubDate)
+                    </p>
+
+                    <p>
+
+                        <a href="https://localhost:44302/BlogPost/Details/ @Html.DisplayFor(modelItem => item.ID)"> View more </a>
+                    </p>
+
+                </td>
+
+                @*<td>
+                        <a asp-action="Edit" asp-route-id="@item.ID">Edit</a> |
+                        <a asp-action="Details" asp-route-id="@item.ID">Details</a> |
+                        <a asp-action="Delete" asp-route-id="@item.ID">Delete</a>
+                    </td>*@
+            </tr>
+        }
+
+    </div>
+}

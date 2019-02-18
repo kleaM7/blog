@@ -1,0 +1,56 @@
+﻿@model Blog_Klea.Models.BlogPost
+
+@{
+    ViewData["Title"] = "Details";
+
+
+
+    var uid = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+    var usern = await UserManager.FindByIdAsync(uid);
+}
+
+@using Microsoft.AspNetCore.Identity
+@using Microsoft.AspNetCore.Identity.EntityFrameworkCore
+@using System.Security.Claims
+
+@inject SignInManager<IdentityUser> SignInManager
+@inject UserManager<IdentityUser> UserManager
+
+
+<div class="text-center">
+    <h1> @Html.DisplayFor(model => model.Title)</h1>
+    <img src="~/content/blog/@Html.DisplayFor(model => model.Image)" style="width:400px;" />
+   
+
+    <div>
+        <h6>@Html.DisplayFor(model => model.Content)</h6>
+        <p> @Html.DisplayFor(model => model.PubDate)</p>
+
+        @foreach (var item in Model.Comments)
+        {
+            <p> @item.RenderContent() </p>
+        }
+
+        @if (SignInManager.IsSignedIn(User))
+        {
+
+
+            <form method="post" asp-action="AddComment" >
+                <h5>Post a comment</h5>
+                <br />
+
+                <textarea id="content" name="content" rows="5" cols="100" onfocus="" required placeholder="Enter your comment here..."></textarea>
+
+                <div class="details">
+                    <input type="submit" value="Post comment" />
+                </div>
+            </form>
+        }
+            <div>
+                <a asp-action="Edit" asp-route-id="@Model.ID">Edit</a>
+                <a asp-action="Delete" asp-route-id="@Model.ID">Delete</a>
+
+                <a asp-action="Index">Back to List</a>
+            </div>
+    </div>

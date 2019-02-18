@@ -1,0 +1,71 @@
+﻿@model Blog_Klea.Models.BlogPost
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Create</h1>
+
+<h4>BlogPost</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create" enctype="multipart/form-data">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Title" class="control-label"></label>
+                <input asp-for="Title" class="form-control" />
+                <span asp-validation-for="Title" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Content" class="control-label"></label>
+                <input asp-for="Content" class="form-control" />
+                <span asp-validation-for="Content" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                ENTER ONLY THE CATEGORIES LISTED BELOW:
+                <ul>
+                    @foreach (var item in ViewData["Categories"] as IEnumerable<string>)
+                    {
+                        <li> @item </li>
+                    }
+                </ul>
+            </div>
+            <div class="form-group">
+                <label asp-for="cats" class="control-label"></label>
+                <input asp-for="cats" class="form-control" />
+                <span asp-validation-for="cats" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Image" class="control-label"></label>
+                <input type="file" asp-for="Image" />
+                <span asp-validation-for="Image" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+
+                @foreach (Category a in (List<Category>)ViewData["cat"])
+                {
+                    <input type="checkbox" name="@a.catname" value="false" />
+                    @a.catname
+                    <br />
+                }
+
+            </div>
+
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

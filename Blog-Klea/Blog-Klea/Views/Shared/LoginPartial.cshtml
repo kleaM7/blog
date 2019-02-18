@@ -1,0 +1,67 @@
+﻿@using Microsoft.AspNetCore.Identity
+@using Microsoft.AspNetCore.Identity.EntityFrameworkCore
+
+@inject SignInManager<IdentityUser> SignInManager 
+@inject UserManager<IdentityUser> UserManager
+
+
+@if (SignInManager.IsSignedIn(User))
+{
+
+<ul class="nav navbar-right navbar-nav">
+
+
+    <li style="margin-left:20px; margin-top:5px;">
+        <a asp-action="Create" asp-controller="BlogPost">Create a post now!</a>
+    </li>
+    <li style="margin-left:20px; margin-top:5px;">
+        <div class="text-right">
+            <form asp-controller="Home" asp-action="Index">
+                <p>
+                    <input type="text" name="SearchString">
+                    <input type="submit" value="Search" />
+                </p>
+            </form>
+        </div>
+    </li>
+    <li style="margin-left:20px; margin-top:5px;">
+        <form asp-controller="Home" asp-action="Filter">
+ 
+            <input type="text" name="filter"/>
+            <input type="submit" value="Filter By Category"/>
+        </form>
+
+    </li>
+    <li style="margin-left:20px; margin-top:5px;">
+        <form asp-area="" asp-controller="Account" asp-action="Logout" id="logoutForm" method="post" class="navbar-right">
+
+            <input type="submit" class="nav" value="Log out" />
+
+        </form>
+    </li>
+
+
+</ul>
+  
+}
+else
+{
+    <ul class="nav navbar-nav navbar-right text-right" style="margin-left:20px;">
+        <li style="margin-left:20px; margin-top:5px;"><a id="registerLink" asp-controller="Account" asp-action="Register"> Register </a></li>
+        <li style="margin-left:20px; margin-top:5px;"><a id="loginLink" asp-controller="Account" asp-action="Login"> Log In </a></li>
+        <li style="margin-left:20px; margin-top:5px;">
+            <div class="text-right">
+                <form asp-controller="Home" asp-action="Index">
+                    <p>
+                         <input type="text" name="SearchString">
+                        <input type="submit" value="Search" />
+                    </p>
+                </form>
+            </div>
+        </li>
+    </ul>
+}
+
+
+@{
+}
